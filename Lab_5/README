@@ -1,1 +1,44 @@
 
+from pathlib import Path
+import zipfile
+
+# Files required for submission
+required_files = [
+    "todo_manager.py",
+    "pylint_report_before.txt",
+    "pylint_report_after.txt",
+    "bandit_report_before.txt",
+    "bandit_report_after.txt",
+    "flake8_report_before.txt",
+    "flake8_report_after.txt",
+    "issue_documentation.md",
+]
+
+# Check which files exist
+existing_files = []
+missing_files = []
+
+for filename in required_files:
+    if Path(filename).exists():
+        existing_files.append(filename)
+    else:
+        missing_files.append(filename)
+
+print("FILES FOUND:")
+for filename in existing_files:
+    print("  ✓", filename)
+
+print("\nFILES MISSING:")
+for filename in missing_files:
+    print("  ✗", filename)
+
+# Create a ZIP containing the files that exist
+zip_name = "Lab5_Static_Code_Analysis.zip"
+
+with zipfile.ZipFile(zip_name, "w", zipfile.ZIP_DEFLATED) as archive:
+    for filename in existing_files:
+        archive.write(filename, arcname=filename)
+
+print(f"\nCreated {zip_name}")
+print("Check the missing files list before submitting.")
+
